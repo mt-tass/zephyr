@@ -1,0 +1,14 @@
+# iteration 1
+
+identifier: beaglebone_ai64/j721e/main_r5f0_1 #this is the name parsed by the west buildtool , needs to follow order of baord/SoC/coreNum
+name: BeagleBone-AI64 R5 #name of the board and the core , this is a arm cortex r5 core hence the name
+type: mcu #although this is a part of the larger SoC that runs linux natively , this is considered a baremetal mcu to run baremetal zephyr rtos on it as each individual core can run its unique os (zephyr in this case)
+arch: arm #architecture of the core , holy ARM , mainly to determine the cross compiler zephyr needs to use 
+ram: 32 #official ram ? or ram needed by zephyr to run on this model ? currently copied the r50_0
+toolchain: #set of softwares needed by the zephyr to turn source code to elf/bin , gnuarmemb is gnu's  arm eabi , set of compiler linker assembler , same cmake stuff  requires designated toolchain , but isn't zephyr needed by all , why not make it default??
+  - zephyr
+  - gnuarmemb
+supported: #peripherals currently supported , def not exhaustivve
+  - uart
+  - i2c
+vendor: beagle

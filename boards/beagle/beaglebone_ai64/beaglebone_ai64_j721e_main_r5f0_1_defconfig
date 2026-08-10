@@ -1,0 +1,18 @@
+
+# Zephyr Kernel Configuration
+# exec in place ? copied to ram first then execute , but for arm m4 the first instruction is read in a vector table which tells the cpu where the stack(ram) is to finally run everything in ram , but what copying is?
+CONFIG_XIP=n
+
+# Serial Driver
+# uart stuff config and init and all
+CONFIG_SERIAL=y
+CONFIG_UART_INTERRUPT_DRIVEN=y
+
+# Enable Console
+# maps the output of print andd all statements to a specific uart 
+CONFIG_CONSOLE=y
+CONFIG_UART_CONSOLE=y
+
+# Enable OpenAMP resource table needed for remoteproc booting
+# asymmetric multiprocessing ? it is the comm between a7 runninng linux and r5 running zephyr using a table , but need to study this !!!!!!!!!1
+CONFIG_OPENAMP_RSC_TABLE=y
