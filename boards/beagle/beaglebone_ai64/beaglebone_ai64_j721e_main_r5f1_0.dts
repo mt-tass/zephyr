@@ -8,9 +8,9 @@
 
 /dts-v1/;
 
-#include <ti/j721e_main_r5.dtsi> /* the real stuff need to study this file in DETAIL !!!!!*/
-#include "beaglebone_ai64_j721e_main_r5f0_1-pinctrl.dtsi" /*just defined for xip , uart , console and most importand amp*/
-#include <freq.h> /* helper header to make the frequency of clock readable*/
+#include <ti/j721e_main_r5.dtsi>
+#include "beaglebone_ai64_j721e_main_r5f1_0-pinctrl.dtsi"
+#include <freq.h>
 
 / {
 	model = "BeagleBoard.org BeagleBone AI-64";
@@ -23,42 +23,41 @@
 		zephyr,ipc = &ipc0;
 		zephyr,ipc_shm = &ddr0;
 	};
-	/* chooses specific peripherals for stuff os needs */
+
 	cpus {
 		cpu@0 {
 			status = "okay";
 		};
 	};
-	/* status okay just enables everything defined in the soc wala layer*/
-	ddr0: memory@a4000000 {
+
+	ddr0: memory@a6000000 {
 		compatible = "mmio-sram";
-		reg = <0xa4000000 DT_SIZE_M(1)>;
+		reg = <0xa6000000 DT_SIZE_M(1)>;
 	};
-	/* ddr0 shared memory between a core and r core , virtio */
-	rsc_table: memory@a4100000 {
+
+	rsc_table: memory@a6100000 {
 		compatible = "zephyr,memory-region", "mmio-sram";
-		reg = <0xa4100000 DT_SIZE_M(1)>;
+		reg = <0xa6100000 DT_SIZE_M(1)>;
 		zephyr,memory-region = "RSC_TABLE";
 	};
-	/* remoteproc table , linux reads this before the r5 core starts to understand the memory structure of this core */
-	ddr1: memory@a4200000 {
+
+	ddr1: memory@a6200000 {
 		compatible = "zephyr,memory-region", "mmio-sram";
-		reg = <0xa4200000 DT_SIZE_M(30)>;
+		reg = <0xa6200000 DT_SIZE_M(14)>;
 		zephyr,memory-region = "DRAM";
 	};
-	/* stack heap data etc of the r5 core , its private territory*/
+
 	ipc0: ipc {
 		compatible = "zephyr,mbox-ipm";
-		mboxes = <&mbox1 2>, <&mbox1 3>;
+		mboxes = <&mbox2 0>, <&mbox2 1>;
 		mbox-names = "tx", "rx";
 	};
-	/* the number next to &mbox1 is the channel , each cluster shares the mbox so only difference is channel, so core 0 has 0 1 , core 1 has 2 3 */
+
 	onboard_osc: onboard-osc {
 		compatible = "fixed-clock";
 		clock-frequency = <DT_FREQ_K(19200)>;
 		#clock-cells = <0>;
 	};
-	/*oscillator this is*/
 };
 
 &i2c6 {
